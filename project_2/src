@@ -1,27 +1,46 @@
 main.c
 
-void setup() {
-  Serial.begin(9600);
-  pinMode(2, OUTPUT);
-  digitalWrite(2, LOW);
+    int RED = 13;
+int YELLOW = 12;
+int GREEN = 11;
+int BUTTON = 2;
 
+void setup()
+{
+  pinMode(RED, OUTPUT);
+  pinMode(YELLOW, OUTPUT);
+  pinMode(GREEN, OUTPUT);
+  pinMode(BUTTON, INPUT_PULLUP);
+
+  digitalWrite(RED, HIGH);
+  digitalWrite(YELLOW, LOW);
+  digitalWrite(GREEN, LOW);
 }
 
-void loop() {
-  int temp;
-  float temp2;
-  temp = analogRead(A0);
-  temp2 = (temp * 4.88);
-  temp2 = (temp2 / 10);
-  Serial.print("\n Temperature = ");
-  Serial.print(temp2);
-  Serial.print("C");
-  if(temp2 < 30)
+void loop()
+{
+  int button_state = digitalRead(BUTTON);
+
+  if (button_state == LOW)
   {
-    digitalWrite(2, LOW);
-  }
-  else
-  {
-    digitalWrite(2, HIGH);
+    delay(50);
+
+    if (digitalRead(BUTTON) == LOW)
+    {
+      digitalWrite(RED, LOW);
+      digitalWrite(YELLOW, HIGH);
+      delay(2000);
+
+      digitalWrite(YELLOW, LOW);
+      digitalWrite(GREEN, HIGH);
+      delay(3000);
+
+      digitalWrite(GREEN, LOW);
+      digitalWrite(YELLOW, HIGH);
+      delay(2000);
+
+      digitalWrite(YELLOW, LOW);
+      digitalWrite(RED, HIGH);
+    }
   }
 }
